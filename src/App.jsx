@@ -33,7 +33,7 @@ function App() {
         <AboutUs/>
         <Socials/>
         <Contactus/>
-        <Confetti/>
+        {/* <Confetti/> */}
 
         <Footer/>
 
