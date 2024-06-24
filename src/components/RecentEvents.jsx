@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import '../styles/RecentEvents.css';
 import video1 from '../assets/images/recent1.mp4';
 import video2 from '../assets/images/recent2.mp4';
@@ -14,12 +14,20 @@ import video11 from '../assets/images/recent11.mp4';
 import video12 from '../assets/images/recent122.mp4';
 import video13 from '../assets/images/recent13.mp4';
 import video14 from '../assets/images/recent144.mp4';
-
+import LoadingAnimation from './LoadingAnimation';
 
 const RecentEvents = () => {
+    const [loading, setLoading] = useState(new Array(14).fill(true));
+
+    const handleLoadedData = (index) => {
+        setLoading(prevLoading => {
+            const newLoading = [...prevLoading];
+            newLoading[index] = false;
+            return newLoading;
+        });
+    };
+
     const videos = [
-        // { src: video1, title: "Event 1", date: "January 2023", tags: ["TRENDS", "DESIGN"] },
-        // { src: video4, title: "Event 4", date: "March 2023", tags: ["MUSIC"] },
         { src: video7, title: "Event 1", date: "January 2022", tags: ["MUSIC"] },
         { src: video12, title: "Event 2", date: "June 2022", tags: ["MUSIC"] },
         { src: video14, title: "Event 3", date: "May 2023", tags: ["BIRTHDAY"] },
@@ -28,7 +36,7 @@ const RecentEvents = () => {
         { src: video8, title: "Event 6", date: "March 2023", tags: ["WEDDING"] },
         { src: video9, title: "Event 7", date: "May 2023", tags: ["CEREMONY"] },
         { src: video10, title: "Event 8", date: "April 2023", tags: ["WEDDING"] },
-        { src: video11, title: "Event 9", date: " July", tags: ["RECEPTION"] },
+        { src: video11, title: "Event 9", date: "July 2023", tags: ["RECEPTION"] },
         { src: video13, title: "Event 10", date: "September 2023", tags: ["WEDDING"] },
         { src: video3, title: "Event 11", date: "March 2024", tags: ["DANCE"] },
         { src: video5, title: "Event 12", date: "February 2024", tags: ["DANCE"] },
@@ -41,7 +49,16 @@ const RecentEvents = () => {
                 {videos.map((video, index) => (
                     <div key={index} className="card text-white border-0">
                         <div className="position-relative">
-                            <video className="video-card" src={video.src} autoPlay loop muted/>
+                            {loading[index] && <LoadingAnimation />}
+                            <video
+                                className="video-card"
+                                src={video.src}
+                                autoPlay
+                                loop
+                                muted
+                                onLoadedData={() => handleLoadedData(index)}
+                                style={{ display: loading[index] ? 'none' : 'block' }}
+                            />
                             <div className="card-img-overlay d-flex flex-column justify-content-between align-items-start p-5">
                                 <div className="d-flex justify-content-between w-100 mb-3">
                                     <div>
